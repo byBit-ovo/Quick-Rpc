@@ -256,7 +256,7 @@ namespace MyRpc
                     res->SetId(req->GetId());
                     res->SetType(Mtype::RSP_SERVICE);
                     res->setRcode(Rcode::RCODE_INVALID_OPTYPE);
-                    res->setServiceOpType(ServiceOptype::SERVICE_UNKNOW);
+                    res->setServiceOpType(ServiceOptype::SERVICE_UNKNOW_PB);
                     conn->send(res);
                 }
                 ProviderManager::ptr _providers;

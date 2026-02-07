@@ -1,0 +1,82 @@
+syntax = "proto3";
+import "google/protobuf/struct.proto";
+package MyRpc;
+
+enum Mtype {
+    REQ_RPC = 0;
+    REQ_SERVICE = 1;
+    REQ_TOPIC = 2;
+    RSP_RPC = 3;
+    RSP_TOPIC = 4;
+    RSP_SERVICE = 5;
+}
+
+enum Rcode {
+    RCODE_OK = 0;
+    RCODE_PARSE_FAILED = 1;
+    RCODE_ERROR_MSGTYPE = 2;
+    RCODE_INVALID_MSG = 3;
+    RCODE_DISCONNECTED = 4;
+    RCODE_INVALID_PARAMS = 5;
+    RCODE_NOT_FOUND_SERVICE = 6;
+    RCODE_INVALID_OPTYPE = 7;
+    RCODE_NOT_FOUND_TOPIC = 8;
+    RCODE_INTERNAL_ERROR = 9;
+    RCODE_INVALID_RESULT = 10;
+}
+
+enum TopicOptype {
+    TOPIC_CREATE = 0;
+    TOPIC_REMOVE = 1;
+    TOPIC_SUBSCRIBE = 2;
+    TOPIC_CANCEL = 3;
+    TOPIC_PUBLISH = 4;
+    SERVICE_UNKNOW = 5;
+}
+
+enum ServiceOptype {
+    SERVICE_REGISTRY = 0;
+    SERVICE_DISCOVERY = 1;
+    SERVICE_ONLINE = 2;
+    SERVICE_OFFLINE = 3;
+    SERVICE_UNKNOW_PB = 4;
+}
+
+message Host {
+    string ip = 1;
+    int32 port = 2;
+}
+
+// Pb 后缀避免与 C++ 包装类 RpcRequest 等重名
+message RpcRequestPb {
+    string method = 1;
+    google.protobuf.Struct parameters = 2;
+}
+
+message RpcResponsePb {
+    int32 rcode = 1;
+    google.protobuf.Value result = 2;
+}
+
+message TopicRequestPb {
+    string topic_key = 1;
+    int32 optype = 2;
+    string topic_msg = 3;
+}
+
+message TopicResponsePb {
+    int32 rcode = 1;
+}
+
+message ServiceRequestPb {
+    string method = 1;
+    int32 optype = 2;
+    Host host = 3;
+}
+
+message ServiceResponsePb {
+    int32 rcode = 1;
+    int32 optype = 2;
+    string method = 3;
+    repeated Host hosts = 4;
+}

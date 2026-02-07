@@ -1,17 +1,13 @@
-# INCLUDE = -I../../muduo/release-install-cpp11/include/
-# LIB     = -L../../muduo/release-install-cpp11/lib/ -lmuduo_net  -lmuduo_base -lpthread -ljsoncpp
-
-LIB = -ljsoncpp -lmuduo_net  -lmuduo_base
-
-
+INCLUDE = -I.. -I/usr/local/include
+LIB = -lprotobuf -lmuduo_net -lmuduo_base -lpthread
 
 .PHONY: clean all
 all: server publish subscribe
-server: server.cpp
+server: server.cpp ../network/pb/message.pb.cc
 	g++ $^ -o $@ $(INCLUDE) $(LIB) -g
-publish: publish_client.cpp 
+publish: publish_client.cpp ../network/pb/message.pb.cc
 	g++ $^ -o $@ $(INCLUDE) $(LIB) -g
-subscribe: subscribe_client.cpp 
+subscribe: subscribe_client.cpp ../network/pb/message.pb.cc
 	g++ $^ -o $@ $(INCLUDE) $(LIB) -g
 clean:
-	rm server publish subscribe
+	rm -f server publish subscribe

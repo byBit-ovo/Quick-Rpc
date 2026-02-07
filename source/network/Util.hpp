@@ -8,7 +8,6 @@
 #include <iomanip>
 #include <stdio.h>
 #include <time.h>
-#include "/usr/local/include/json/json.h"
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
@@ -53,31 +52,28 @@ public:
     }
 };
 // FileLog toFile;
-class JsonUtil
-{
-    public:
+#include <google/protobuf/struct.pb.h>
 
-        static std::string serialize(const Json::Value &json)
-        {
-            std::stringstream ss;
-            Json::StreamWriterBuilder factory;
-            std::unique_ptr<Json::StreamWriter> writer(factory.newStreamWriter());
-            writer->write(json, &ss);
-            return ss.str();
-        }
-        static Json::Value deserialize(const std::string &src)
-        {
-            Json::CharReaderBuilder factory;
-            std::unique_ptr<Json::CharReader> reader(factory.newCharReader());
-            Json::Value root;
-            std::string err;
-            if (reader->parse(src.c_str(), src.c_str() + src.size(), &root, &err) == false)
-            {
-                ELOG("Json deserialsize fail: %s", err.c_str());
-            }
-            return root;
-        }
+class PbUtil
+{
+public:
+    static void SetNumber(google::protobuf::Struct* s, const std::string& key, double val)
+    {
+        (*s->mutable_fields())[key].set_number_value(val);
+    }
+    static void SetString(google::protobuf::Struct* s, const std::string& key, const std::string& val)
+    {
+        (*s->mutable_fields())[key].set_string_value(val);
+    }
+    static void SetInt(google::protobuf::Struct* s, const std::string& key, int val)
+    {
+        (*s->mutable_fields())[key].set_number_value(static_cast<double>(val));
+    }
+    static double GetNumber(const google::protobuf::Value& v) { return v.number_value(); }
+    static std::string GetString(const google::protobuf::Value& v) { return v.string_value(); }
+    static int GetInt(const google::protobuf::Value& v) { return static_cast<int>(v.number_value()); }
 };
+
 class Uuid
 {
 public:

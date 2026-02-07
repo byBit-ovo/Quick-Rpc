@@ -85,7 +85,7 @@ namespace MyRpc{
                         return false;
                     }
                     if(topic_resp->rcode() != Rcode::RCODE_OK){
-                        ELOG("Topic response error: %s: %s",topic_resp->GetId().c_str(),RcodeDesc[topic_resp->rcode()].c_str());
+                        ELOG("Topic response error: %s: %s",topic_resp->GetId().c_str(),RcodeDesc.at(static_cast<int>(topic_resp->rcode())).c_str());
                         return false;
                     }
                     return true;

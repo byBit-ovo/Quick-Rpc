@@ -1,92 +1,41 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include "pb/message.pb.h"
+
 namespace MyRpc
 {
-#define KEY_METHOD "method"
-#define KEY_PARAMS "parameters"
-#define KEY_TOPIC_KEY "topic_key"
-#define KEY_TOPIC_MSG "topic_msg"
-#define KEY_OPTYPE "optype"
-#define KEY_HOST "host"
-#define KEY_HOST_IP "ip"
-#define KEY_HOST_PORT "port"
-#define KEY_RCODE "rcode"
-#define KEY_RESULT "result"
+    // 使用 proto 生成的枚举 Mtype, Rcode, TopicOptype, ServiceOptype
 
-    //these fields are in message
-    enum class Mtype
-    {
-        REQ_RPC = 0,
-        REQ_SERVICE,
-        REQ_TOPIC,
-        RSP_RPC,
-        RSP_TOPIC,
-        RSP_SERVICE
-    };
-    //these fields are in message
-    enum class Rcode
-    {
-        RCODE_OK = 0,
-        RCODE_PARSE_FAILED,
-        RCODE_ERROR_MSGTYPE,
-        RCODE_INVALID_MSG,
-        RCODE_DISCONNECTED,
-        RCODE_INVALID_PARAMS,
-        RCODE_NOT_FOUND_SERVICE,
-        RCODE_INVALID_OPTYPE,
-        RCODE_NOT_FOUND_TOPIC,
-        RCODE_INTERNAL_ERROR,
-        RCODE_INVALID_RESULT
-    };
-    static std::unordered_map<Rcode, std::string> RcodeDesc = {
-        {Rcode::RCODE_OK, "成功处理！"},
-        {Rcode::RCODE_PARSE_FAILED, "消息解析失败！"},
-        {Rcode::RCODE_ERROR_MSGTYPE, "消息类型错误！"},
-        {Rcode::RCODE_INVALID_MSG, "⽆效消息"},
-        {Rcode::RCODE_DISCONNECTED, "连接已断开！"},
-        {Rcode::RCODE_INVALID_PARAMS, "⽆效的Rpc参数!"},
-        {Rcode::RCODE_NOT_FOUND_SERVICE, "没有找到对应的服务！"},
-        {Rcode::RCODE_INVALID_OPTYPE, "⽆效的操作类型"},
-        {Rcode::RCODE_NOT_FOUND_TOPIC, "没有找到对应的主题！"},
-        {Rcode::RCODE_INTERNAL_ERROR, "内部错误！"},
-        {Rcode::RCODE_INVALID_RESULT, "结果类型错误!"}
-    };
-    // these fields are in Class: RequestDesc
+    // ReqType 仅 C++ 使用，proto 中无
     enum class ReqType
     {
         REQ_ASYNC = 0,
         REQ_CALLBACK
     };
 
-    // these fields are in messgage body
-    enum class TopicOptype
-    {
-        TOPIC_CREATE = 0,
-        TOPIC_REMOVE,
-        TOPIC_SUBSCRIBE,
-        TOPIC_CANCEL,
-        TOPIC_PUBLISH,
-        SERVICE_UNKNOW
+    // proto ServiceOptype 使用 SERVICE_UNKNOW_PB，此处保持兼容
+    static std::unordered_map<int, std::string> RcodeDesc = {
+        {static_cast<int>(Rcode::RCODE_OK), "成功处理！"},
+        {static_cast<int>(Rcode::RCODE_PARSE_FAILED), "消息解析失败！"},
+        {static_cast<int>(Rcode::RCODE_ERROR_MSGTYPE), "消息类型错误！"},
+        {static_cast<int>(Rcode::RCODE_INVALID_MSG), "无效消息"},
+        {static_cast<int>(Rcode::RCODE_DISCONNECTED), "连接已断开！"},
+        {static_cast<int>(Rcode::RCODE_INVALID_PARAMS), "无效的Rpc参数!"},
+        {static_cast<int>(Rcode::RCODE_NOT_FOUND_SERVICE), "没有找到对应的服务！"},
+        {static_cast<int>(Rcode::RCODE_INVALID_OPTYPE), "无效的操作类型"},
+        {static_cast<int>(Rcode::RCODE_NOT_FOUND_TOPIC), "没有找到对应的主题！"},
+        {static_cast<int>(Rcode::RCODE_INTERNAL_ERROR), "内部错误！"},
+        {static_cast<int>(Rcode::RCODE_INVALID_RESULT), "结果类型错误!"}
     };
 
-    // these fields are in messgage body
-    enum class ServiceOptype
+    inline std::string ErrReason(Rcode code)
     {
-        SERVICE_REGISTRY = 0,
-        SERVICE_DISCOVERY,
-        SERVICE_ONLINE,
-        SERVICE_OFFLINE,
-        SERVICE_UNKNOW
-    };
-    std::string ErrReason(Rcode code)
-    {
-        auto iter = RcodeDesc.find(code);
+        auto iter = RcodeDesc.find(static_cast<int>(code));
         if (iter == RcodeDesc.end())
         {
             return "未知错误";
         }
         return iter->second;
     }
-
 }

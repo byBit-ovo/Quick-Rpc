@@ -1,141 +1,34 @@
 #include "../network/message.hpp"
 #include "../network/network.hpp"
 #include "../network/dispatcher.hpp"
+#include "../network/Util.hpp"
 #include "../server/rpc_router.hpp"
-void RpcMessageTest()
-{
-    // method 1:
-    MyRpc::RpcRequest::ptr rrq = std::dynamic_pointer_cast<MyRpc::RpcRequest>(MyRpc::MessageFactory::create(MyRpc::Mtype::REQ_RPC));
-    MyRpc::RpcRequest::ptr rrq4 = MyRpc::MessageFactory::create<MyRpc::RpcRequest>();
-    rrq->SetId(Uuid::uuid());
-    rrq->setMethod("Add");
-    Json::Value params;
-    params["num1"] = 1;
-    params["num2"] = 4;
-    rrq->setParameters(params);
-    std::string msg = rrq->serialize();
-    std::cout<<msg<<std::endl;
-    MyRpc::RpcRequest::ptr rrq2 = std::dynamic_pointer_cast<MyRpc::RpcRequest>(MyRpc::MessageFactory::create(MyRpc::Mtype::REQ_RPC));
-    rrq2->deserialize(msg);
-    std::cout<<rrq2->serialize()<<std::endl;
-    std::cout<<rrq2->method()<<std::endl;
-    std::cout<<rrq2->parameters()["num2"].asInt()<<std::endl;
-    MyRpc::RpcResponse::ptr rrq3 = MyRpc::MessageFactory::create<MyRpc::RpcResponse>();
-    rrq3->SetId(Uuid::uuid());
-    rrq3->setRcode(MyRpc::Rcode::RCODE_OK);
-    rrq3->SetType(MyRpc::Mtype::RSP_RPC);
-    Json::Value result;
-    result["Res"] = 3;
-    result["Tips"] = "have a good day!";
-    rrq3->setResult("Have a good time");
-    rrq3->check();
-    std::cout<<rrq3->serialize()<<std::endl;
-    std::cout<<rrq3->GetId()<<std::endl;
-}
-void TopicTest()
-{
-    MyRpc::TopicRequest::ptr tr = MyRpc::MessageFactory::create<MyRpc::TopicRequest>();
-    tr->setTopicKey("Music");
-    tr->setOpType(MyRpc::TopicOptype::TOPIC_PUBLISH);
-    tr->setTopicMsg("就是爱你");
-    std::cout<<tr->serialize()<<std::endl;
-    MyRpc::TopicResponse::ptr tr2 = MyRpc::MessageFactory::create<MyRpc::TopicResponse>();
-    tr2->SetType(MyRpc::Mtype::RSP_TOPIC);
-    tr2->setRcode(MyRpc::Rcode::RCODE_OK);
-    std::cout<<tr2->serialize()<<std::endl;
-}
-void ServiceTest(){
-    MyRpc::ServiceRequest::ptr tr = MyRpc::MessageFactory::create<MyRpc::ServiceRequest>();
-    tr->SetType(MyRpc::Mtype::REQ_SERVICE);
-    tr->setServiceOpType(MyRpc::ServiceOptype::SERVICE_REGISTRY);
-    tr->setHost(std::make_pair("81.71.17.201", 8888));
-    tr->setMethod("Design a goolge");
-    tr->check();
-    std::cout<<tr->serialize()<<std::endl<<std::endl;
+#include <google/protobuf/struct.pb.h>
 
-    MyRpc::ServiceResponse::ptr trp = MyRpc::MessageFactory::create<MyRpc::ServiceResponse>();
-    std::vector<MyRpc::Address> addrs = { {"37.19.293.2",8980}, {"90.23.11.231", 6789}, {"46.23.45.112", 6565}};
-    trp->setHosts(addrs);
-    trp->SetType(MyRpc::Mtype::RSP_SERVICE);
-    trp->setMethod("Design a google");
-    trp->setRcode(MyRpc::Rcode::RCODE_OK);
-    trp->setServiceOpType(MyRpc::ServiceOptype::SERVICE_DISCOVERY);
-    trp->check();
-    std::cout<<trp->serialize()<<std::endl;
-    std::cout<<static_cast<int>(trp->GetType())<<std::endl;
-    std::cout<<trp->method()<<std::endl;
-    std::cout<<static_cast<int>(trp->rcode())<<std::endl;
-}
-void onMessage(const MyRpc::ConnectionBase::ptr& conn, MyRpc::RpcRequest::ptr& msg)
+void Add(const google::protobuf::Struct& req, google::protobuf::Value& resp)
 {
-    std::string body = msg->serialize();
-    ILOG("%s,%s","收到RPC请求: ",body.c_str());
-    MyRpc::RpcResponse::ptr rrq3 = MyRpc::MessageFactory::create<MyRpc::RpcResponse>();
-    rrq3->SetId(Uuid::uuid());
-    rrq3->setRcode(MyRpc::Rcode::RCODE_OK); 
-    rrq3->SetType(MyRpc::Mtype::RSP_RPC); 
-    Json::Value result;
-    result["Res"] = 3;
-    result["Tips"] = "have a good day!";
-    rrq3->setResult(result); 
-    conn->send(rrq3);
-}
-void onTopic(const MyRpc::ConnectionBase::ptr& conn, MyRpc::TopicRequest::ptr& msg)
-{
-    std::string body = msg->serialize();
-    ILOG("%s,%s","收到Topic请求: ",body.c_str());
-    MyRpc::TopicResponse::ptr rrq3 = MyRpc::MessageFactory::create<MyRpc::TopicResponse>();
-    rrq3->SetId(Uuid::uuid());
-    rrq3->setRcode(MyRpc::Rcode::RCODE_OK); 
-    rrq3->SetType(MyRpc::Mtype::RSP_TOPIC); 
-    conn->send(rrq3);
-}
-void onService(const MyRpc::ConnectionBase::ptr& conn, MyRpc::ServiceRequest::ptr& msg)
-{
-    std::string body = msg->serialize();
-    ILOG("%s,%s","收到Service请求: ",body.c_str());
-    MyRpc::ServiceResponse::ptr rrq3 = MyRpc::MessageFactory::create<MyRpc::ServiceResponse>();
-    rrq3->SetId(Uuid::uuid());
-    rrq3->setRcode(MyRpc::Rcode::RCODE_OK); 
-    rrq3->SetType(MyRpc::Mtype::RSP_SERVICE);
-    rrq3->setMethod("Add"); 
-    conn->send(rrq3);
-}
-void test(){
-    MyRpc::ServerBase::ptr server = MyRpc::ServerFactory::create(9000);
-    MyRpc::Dispatcher::ptr dispatcher = std::make_shared<MyRpc::Dispatcher>();
-    dispatcher->registerHandler<MyRpc::RpcRequest>(MyRpc::Mtype::REQ_RPC, onMessage);
-    dispatcher->registerHandler<MyRpc::TopicRequest>(MyRpc::Mtype::REQ_TOPIC, onTopic);
-    dispatcher->registerHandler<MyRpc::ServiceRequest>(MyRpc::Mtype::REQ_SERVICE, onService);
-    auto onmessage = std::bind(&MyRpc::Dispatcher::messageCallBack ,dispatcher.get(),std::placeholders::_1,std::placeholders::_2);
-    server->SetMessageCallBack(onmessage);
-    server->start();
-}
-void Add(const Json::Value& req, Json::Value &resp){
-    int num1 = req["num1"].asInt();
-    int num2 = req["num2"].asInt();
-    resp = num1 + num2;
+    int num1 = PbUtil::GetInt(req.fields().at("num1"));
+    int num2 = PbUtil::GetInt(req.fields().at("num2"));
+    resp.set_number_value(num1 + num2);
 }
 void testCommunication()
 {
     MyRpc::ServerBase::ptr server = MyRpc::ServerFactory::create(10086);
-    //三类请求中转
     MyRpc::Dispatcher::ptr dispatcher = std::make_shared<MyRpc::Dispatcher>();
-    //Rpc服务管理
     MyRpc::Server::RpcRouter::ptr router = std::make_shared<MyRpc::Server::RpcRouter>();
     MyRpc::Server::ServiceDescBuilder::ptr serviceBuilder = std::make_shared<MyRpc::Server::ServiceDescBuilder>();
-    auto req_rpc = std::bind(&MyRpc::Server::RpcRouter::onRpcRequest,router.get(),std::placeholders::_1,std::placeholders::_2);
-    dispatcher->registerHandler<MyRpc::RpcRequest>(MyRpc::Mtype::REQ_RPC,req_rpc);
-    //注册Rpc服务
-    auto service1 = serviceBuilder->setMethodName("Add").
-    setParamsDesc("num1",MyRpc::Server::parameterType::INTEGRAL).
-    setParamsDesc("num2",MyRpc::Server::parameterType::INTEGRAL).
-    setReturnType(MyRpc::Server::parameterType::INTEGRAL).setCallback(Add).build();
+    auto req_rpc = std::bind(&MyRpc::Server::RpcRouter::onRpcRequest, router.get(), std::placeholders::_1, std::placeholders::_2);
+    dispatcher->registerHandler<MyRpc::RpcRequest>(MyRpc::Mtype::REQ_RPC, req_rpc);
+    auto service1 = serviceBuilder->setMethodName("Add")
+                        .setParamsDesc("num1", MyRpc::Server::parameterType::INTEGRAL)
+                        .setParamsDesc("num2", MyRpc::Server::parameterType::INTEGRAL)
+                        .setReturnType(MyRpc::Server::parameterType::INTEGRAL)
+                        .setCallback(Add)
+                        .build();
     router->registerService(service1);
-    auto message_call = std::bind(&MyRpc::Dispatcher::messageCallBack,dispatcher.get(),
-    std::placeholders::_1,std::placeholders::_2);
+    auto message_call = std::bind(&MyRpc::Dispatcher::messageCallBack, dispatcher.get(),
+                                  std::placeholders::_1, std::placeholders::_2);
     server->SetMessageCallBack(message_call);
-    //启动服务器
     server->start();
 }
 int main()

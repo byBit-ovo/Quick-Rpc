@@ -57,6 +57,8 @@ namespace MyRpc
         }
     };
 
+
+    // Tcp编程要考虑粘包和拆包问题，所以需要一个协议来解决这个问题
     class RpcProtocol : public ProtocolBase
     {
     public:

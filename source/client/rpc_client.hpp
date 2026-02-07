@@ -4,6 +4,7 @@
 #include "service_manager.hpp"
 #include "topic.hpp"
 #include "../network/message.hpp"
+#include <google/protobuf/struct.pb.h>
 
 namespace MyRpc{
     namespace Client{
@@ -127,17 +128,15 @@ namespace MyRpc{
                 //     return ret;
                 // }
                 //同步调用
-                bool call(const std::string& method, const Json::Value& parameters,Json::Value& result){
+                bool call(const std::string& method, const google::protobuf::Struct& parameters, google::protobuf::Value& result){
                     ClientBase::ptr rpcClient = getAvailableClient(method);
                     if(rpcClient.get() == nullptr){
                         return false;
                     }
-
                     return _caller->call(rpcClient->connection(),method,parameters,result);
-
                 }
                 //异步调用
-                bool call(const std::string& method, const Json::Value& parameters,std::future<Json::Value>& result){
+                bool call(const std::string& method, const google::protobuf::Struct& parameters, std::future<google::protobuf::Value>& result){
                     ClientBase::ptr rpcClient = getAvailableClient(method);
                     if(rpcClient.get() == nullptr){
                         return false;
@@ -145,7 +144,7 @@ namespace MyRpc{
                     return _caller->call(rpcClient->connection(),method,parameters,result);
                 }
                 //设置回调，调用
-                bool call(const std::string& method,const Json::Value& parameters,const RpcCaller::JsonCallBack& call_back){
+                bool call(const std::string& method, const google::protobuf::Struct& parameters, const RpcCaller::PbCallBack& call_back){
                     ClientBase::ptr rpcClient = getAvailableClient(method);
                     if(rpcClient.get() == nullptr){
                         return false;
