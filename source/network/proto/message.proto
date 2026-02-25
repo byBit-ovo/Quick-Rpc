@@ -47,7 +47,6 @@ message Host {
     int32 port = 2;
 }
 
-// Pb 后缀避免与 C++ 包装类 RpcRequest 等重名
 message RpcRequestPb {
     string method = 1;
     google.protobuf.Struct parameters = 2;
