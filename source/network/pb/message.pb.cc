@@ -231,31 +231,31 @@ const char descriptor_table_protodef_message_2eproto[] PROTOBUF_SECTION_VARIABLE
   "struct.proto\" \n\004Host\022\n\n\002ip\030\001 \001(\t\022\014\n\004port"
   "\030\002 \001(\005\"K\n\014RpcRequestPb\022\016\n\006method\030\001 \001(\t\022+"
   "\n\nparameters\030\002 \001(\0132\027.google.protobuf.Str"
-  "uct\"F\n\rRpcResponsePb\022\r\n\005rcode\030\001 \001(\005\022&\n\006r"
-  "esult\030\002 \001(\0132\026.google.protobuf.Value\"F\n\016T"
-  "opicRequestPb\022\021\n\ttopic_key\030\001 \001(\t\022\016\n\006opty"
-  "pe\030\002 \001(\005\022\021\n\ttopic_msg\030\003 \001(\t\" \n\017TopicResp"
-  "onsePb\022\r\n\005rcode\030\001 \001(\005\"M\n\020ServiceRequestP"
-  "b\022\016\n\006method\030\001 \001(\t\022\016\n\006optype\030\002 \001(\005\022\031\n\004hos"
-  "t\030\003 \001(\0132\013.MyRpc.Host\"^\n\021ServiceResponseP"
-  "b\022\r\n\005rcode\030\001 \001(\005\022\016\n\006optype\030\002 \001(\005\022\016\n\006meth"
-  "od\030\003 \001(\t\022\032\n\005hosts\030\004 \003(\0132\013.MyRpc.Host*a\n\005"
-  "Mtype\022\013\n\007REQ_RPC\020\000\022\017\n\013REQ_SERVICE\020\001\022\r\n\tR"
-  "EQ_TOPIC\020\002\022\013\n\007RSP_RPC\020\003\022\r\n\tRSP_TOPIC\020\004\022\017"
-  "\n\013RSP_SERVICE\020\005*\225\002\n\005Rcode\022\014\n\010RCODE_OK\020\000\022"
-  "\026\n\022RCODE_PARSE_FAILED\020\001\022\027\n\023RCODE_ERROR_M"
-  "SGTYPE\020\002\022\025\n\021RCODE_INVALID_MSG\020\003\022\026\n\022RCODE"
-  "_DISCONNECTED\020\004\022\030\n\024RCODE_INVALID_PARAMS\020"
-  "\005\022\033\n\027RCODE_NOT_FOUND_SERVICE\020\006\022\030\n\024RCODE_"
-  "INVALID_OPTYPE\020\007\022\031\n\025RCODE_NOT_FOUND_TOPI"
-  "C\020\010\022\030\n\024RCODE_INTERNAL_ERROR\020\t\022\030\n\024RCODE_I"
-  "NVALID_RESULT\020\n*\177\n\013TopicOptype\022\020\n\014TOPIC_"
-  "CREATE\020\000\022\020\n\014TOPIC_REMOVE\020\001\022\023\n\017TOPIC_SUBS"
-  "CRIBE\020\002\022\020\n\014TOPIC_CANCEL\020\003\022\021\n\rTOPIC_PUBLI"
-  "SH\020\004\022\022\n\016SERVICE_UNKNOW\020\005*|\n\rServiceOptyp"
-  "e\022\024\n\020SERVICE_REGISTRY\020\000\022\025\n\021SERVICE_DISCO"
-  "VERY\020\001\022\022\n\016SERVICE_ONLINE\020\002\022\023\n\017SERVICE_OF"
-  "FLINE\020\003\022\025\n\021SERVICE_UNKNOW_PB\020\004b\006proto3"
+  "uct\"G\n\rRpcResponsePb\022\r\n\005rcode\030\001 \001(\005\022\'\n\006r"
+  "esult\030\002 \001(\0132\027.google.protobuf.Struct\"F\n\016"
+  "TopicRequestPb\022\021\n\ttopic_key\030\001 \001(\t\022\016\n\006opt"
+  "ype\030\002 \001(\005\022\021\n\ttopic_msg\030\003 \001(\t\" \n\017TopicRes"
+  "ponsePb\022\r\n\005rcode\030\001 \001(\005\"M\n\020ServiceRequest"
+  "Pb\022\016\n\006method\030\001 \001(\t\022\016\n\006optype\030\002 \001(\005\022\031\n\004ho"
+  "st\030\003 \001(\0132\013.MyRpc.Host\"^\n\021ServiceResponse"
+  "Pb\022\r\n\005rcode\030\001 \001(\005\022\016\n\006optype\030\002 \001(\005\022\016\n\006met"
+  "hod\030\003 \001(\t\022\032\n\005hosts\030\004 \003(\0132\013.MyRpc.Host*a\n"
+  "\005Mtype\022\013\n\007REQ_RPC\020\000\022\017\n\013REQ_SERVICE\020\001\022\r\n\t"
+  "REQ_TOPIC\020\002\022\013\n\007RSP_RPC\020\003\022\r\n\tRSP_TOPIC\020\004\022"
+  "\017\n\013RSP_SERVICE\020\005*\225\002\n\005Rcode\022\014\n\010RCODE_OK\020\000"
+  "\022\026\n\022RCODE_PARSE_FAILED\020\001\022\027\n\023RCODE_ERROR_"
+  "MSGTYPE\020\002\022\025\n\021RCODE_INVALID_MSG\020\003\022\026\n\022RCOD"
+  "E_DISCONNECTED\020\004\022\030\n\024RCODE_INVALID_PARAMS"
+  "\020\005\022\033\n\027RCODE_NOT_FOUND_SERVICE\020\006\022\030\n\024RCODE"
+  "_INVALID_OPTYPE\020\007\022\031\n\025RCODE_NOT_FOUND_TOP"
+  "IC\020\010\022\030\n\024RCODE_INTERNAL_ERROR\020\t\022\030\n\024RCODE_"
+  "INVALID_RESULT\020\n*\177\n\013TopicOptype\022\020\n\014TOPIC"
+  "_CREATE\020\000\022\020\n\014TOPIC_REMOVE\020\001\022\023\n\017TOPIC_SUB"
+  "SCRIBE\020\002\022\020\n\014TOPIC_CANCEL\020\003\022\021\n\rTOPIC_PUBL"
+  "ISH\020\004\022\022\n\016SERVICE_UNKNOW\020\005*|\n\rServiceOpty"
+  "pe\022\024\n\020SERVICE_REGISTRY\020\000\022\025\n\021SERVICE_DISC"
+  "OVERY\020\001\022\022\n\016SERVICE_ONLINE\020\002\022\023\n\017SERVICE_O"
+  "FFLINE\020\003\022\025\n\021SERVICE_UNKNOW_PB\020\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_message_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fstruct_2eproto,
@@ -271,7 +271,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_mes
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_message_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto = {
-  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 1158,
+  false, false, descriptor_table_protodef_message_2eproto, "message.proto", 1159,
   &descriptor_table_message_2eproto_once, descriptor_table_message_2eproto_sccs, descriptor_table_message_2eproto_deps, 7, 1,
   schemas, file_default_instances, TableStruct_message_2eproto::offsets,
   file_level_metadata_message_2eproto, 7, file_level_enum_descriptors_message_2eproto, file_level_service_descriptors_message_2eproto,
@@ -855,15 +855,15 @@ void RpcRequestPb::InternalSwap(RpcRequestPb* other) {
 // ===================================================================
 
 void RpcResponsePb::InitAsDefaultInstance() {
-  ::MyRpc::_RpcResponsePb_default_instance_._instance.get_mutable()->result_ = const_cast< PROTOBUF_NAMESPACE_ID::Value*>(
-      PROTOBUF_NAMESPACE_ID::Value::internal_default_instance());
+  ::MyRpc::_RpcResponsePb_default_instance_._instance.get_mutable()->result_ = const_cast< PROTOBUF_NAMESPACE_ID::Struct*>(
+      PROTOBUF_NAMESPACE_ID::Struct::internal_default_instance());
 }
 class RpcResponsePb::_Internal {
  public:
-  static const PROTOBUF_NAMESPACE_ID::Value& result(const RpcResponsePb* msg);
+  static const PROTOBUF_NAMESPACE_ID::Struct& result(const RpcResponsePb* msg);
 };
 
-const PROTOBUF_NAMESPACE_ID::Value&
+const PROTOBUF_NAMESPACE_ID::Struct&
 RpcResponsePb::_Internal::result(const RpcResponsePb* msg) {
   return *msg->result_;
 }
@@ -883,7 +883,7 @@ RpcResponsePb::RpcResponsePb(const RpcResponsePb& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_result()) {
-    result_ = new PROTOBUF_NAMESPACE_ID::Value(*from.result_);
+    result_ = new PROTOBUF_NAMESPACE_ID::Struct(*from.result_);
   } else {
     result_ = nullptr;
   }
@@ -953,7 +953,7 @@ const char* RpcResponsePb::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .google.protobuf.Value result = 2;
+      // .google.protobuf.Struct result = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_result(), ptr);
@@ -994,7 +994,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_rcode(), target);
   }
 
-  // .google.protobuf.Value result = 2;
+  // .google.protobuf.Struct result = 2;
   if (this->has_result()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
@@ -1018,7 +1018,7 @@ size_t RpcResponsePb::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .google.protobuf.Value result = 2;
+  // .google.protobuf.Struct result = 2;
   if (this->has_result()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -1064,7 +1064,7 @@ void RpcResponsePb::MergeFrom(const RpcResponsePb& from) {
   (void) cached_has_bits;
 
   if (from.has_result()) {
-    _internal_mutable_result()->PROTOBUF_NAMESPACE_ID::Value::MergeFrom(from._internal_result());
+    _internal_mutable_result()->PROTOBUF_NAMESPACE_ID::Struct::MergeFrom(from._internal_result());
   }
   if (from.rcode() != 0) {
     _internal_set_rcode(from._internal_rcode());

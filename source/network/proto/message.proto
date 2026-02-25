@@ -54,7 +54,7 @@ message RpcRequestPb {
 
 message RpcResponsePb {
     int32 rcode = 1;
-    google.protobuf.Value result = 2;
+    google.protobuf.Struct result = 2;
 }
 
 message TopicRequestPb {

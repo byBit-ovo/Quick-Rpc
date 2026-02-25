@@ -11,8 +11,8 @@ void onMessage(const MyRpc::ConnectionBase::ptr& conn, MyRpc::RpcRequest::ptr& m
     rrq3->SetId(msg->GetId());
     rrq3->setRcode(MyRpc::Rcode::RCODE_OK);
     rrq3->SetType(MyRpc::Mtype::RSP_RPC);
-    google::protobuf::Value result;
-    result.set_number_value(42);
+    google::protobuf::Struct result;
+    PbUtil::SetInt(&result, "value", 42);
     rrq3->set_result(result);
     conn->send(rrq3);
 }

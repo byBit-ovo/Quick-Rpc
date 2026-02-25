@@ -21,18 +21,18 @@ void testCommunication()
     MyRpc::ConnectionBase::ptr conn = client->connection();
 
     google::protobuf::Struct para;
-    google::protobuf::Value result;
+    google::protobuf::Struct result;
     PbUtil::SetInt(&para, "num1", 12);
     PbUtil::SetInt(&para, "num2", 25);
     if (caller->call(conn, "Add", para, result) != false)
     {
-        std::cout << PbUtil::GetInt(result) << std::endl;
+        std::cout << PbUtil::GetInt(result.fields().at("value")) << std::endl;
         sleep(1);
     }
 
-    auto jsonCall = [](const google::protobuf::Value& result)
+    auto jsonCall = [](const google::protobuf::Struct& result)
     {
-        std::cout << "The result is " << PbUtil::GetInt(result) << std::endl;
+        std::cout << "The result is " << PbUtil::GetInt(result.fields().at("value")) << std::endl;
     };
     PbUtil::SetInt(&para, "num1", 4);
     PbUtil::SetInt(&para, "num2", 5);
@@ -41,13 +41,13 @@ void testCommunication()
         std::cout << "回调调用错误" << std::endl;
     }
 
-    std::future<google::protobuf::Value> fu;
+    std::future<google::protobuf::Struct> fu;
     PbUtil::SetInt(&para, "num1", 6);
     PbUtil::SetInt(&para, "num2", 8);
     if (caller->call(conn, "Add", para, fu) != false)
     {
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        std::cout << PbUtil::GetInt(fu.get()) << std::endl;
+        std::cout << PbUtil::GetInt(fu.get().fields().at("value")) << std::endl;
     }
     conn->shutDown();
 }

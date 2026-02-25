@@ -1,9 +1,9 @@
 #include "../client/rpc_client.hpp"
 #include "../network/Util.hpp"
 
-void onResult(const google::protobuf::Value& result)
+void onResult(const google::protobuf::Struct& result)
 {
-    std::cout << "CallBack(12+16):The answer is " << PbUtil::GetInt(result) << std::endl;
+    std::cout << "CallBack(12+16):The answer is " << PbUtil::GetInt(result.fields().at("value")) << std::endl;
 }
 void testCommunication()
 {
@@ -11,15 +11,15 @@ void testCommunication()
     google::protobuf::Struct para;
     PbUtil::SetInt(&para, "num1", 4);
     PbUtil::SetInt(&para, "num2", 7);
-    google::protobuf::Value ans;
+    google::protobuf::Struct ans;
     client->call("Add", para, ans);
-    std::cout << "Sync(4+7):The answer is " << PbUtil::GetInt(ans) << std::endl;
-    std::future<google::protobuf::Value> ans2;
+    std::cout << "Sync(4+7):The answer is " << PbUtil::GetInt(ans.fields().at("value")) << std::endl;
+    std::future<google::protobuf::Struct> ans2;
     PbUtil::SetInt(&para, "num1", 7);
     PbUtil::SetInt(&para, "num2", 10);
     client->call("Add", para, ans2);
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    std::cout << "ASync(7+10):The answer is " << PbUtil::GetInt(ans2.get()) << std::endl;
+    std::cout << "ASync(7+10):The answer is " << PbUtil::GetInt(ans2.get().fields().at("value")) << std::endl;
     PbUtil::SetInt(&para, "num1", 12);
     PbUtil::SetInt(&para, "num2", 16);
     client->call("Add", para, onResult);

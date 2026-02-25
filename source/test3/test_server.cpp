@@ -1,11 +1,11 @@
 #include "../server/rpc_server.hpp"
 #include "../network/Util.hpp"
 
-void Add(const google::protobuf::Struct& para, google::protobuf::Value& ans)
+void Add(const google::protobuf::Struct& para, google::protobuf::Struct& ans)
 {
     int num1 = PbUtil::GetInt(para.fields().at("num1"));
     int num2 = PbUtil::GetInt(para.fields().at("num2"));
-    ans.set_number_value(num1 + num2);
+    PbUtil::SetInt(&ans, "value", num1 + num2);
 }
 void testCommunication()
 {

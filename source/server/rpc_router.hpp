@@ -42,7 +42,7 @@ namespace MyRpc
         {
         public:
             using ptr = std::shared_ptr<ServiceDesc>;
-            using Func_t = std::function<void(const google::protobuf::Struct&, google::protobuf::Value&)>;
+            using Func_t = std::function<void(const google::protobuf::Struct&, google::protobuf::Struct&)>;
             ServiceDesc(const Func_t& func, const std::string& name, const parameterType type,
                         const std::unordered_map<std::string, parameterType>& parameters)
                 : _call(func), _name(name), _return_type(type), _parameters(parameters) {}
@@ -73,14 +73,9 @@ namespace MyRpc
                 return true;
             }
 
-            bool call(const google::protobuf::Struct& params, google::protobuf::Value& result)
+            bool call(const google::protobuf::Struct& params, google::protobuf::Struct& result)
             {
                 _call(params, result);
-                if (!checkValueType(_return_type, result))
-                {
-                    ELOG("Rpc响应结果类型错误");
-                    return false;
-                }
                 return true;
             }
 
@@ -177,22 +172,22 @@ namespace MyRpc
                 if (service.get() == nullptr)
                 {
                     ELOG("Rpc请求方法不存在!");
-                    return response(conn, google::protobuf::Value(), Rcode::RCODE_NOT_FOUND_SERVICE, msg->GetId());
+                    return response(conn, google::protobuf::Struct(), Rcode::RCODE_NOT_FOUND_SERVICE, msg->GetId());
                 }
                 if (!service->checkOutParameters(msg->parameters()))
                 {
-                    return response(conn, google::protobuf::Value(), Rcode::RCODE_INVALID_PARAMS, msg->GetId());
+                    return response(conn, google::protobuf::Struct(), Rcode::RCODE_INVALID_PARAMS, msg->GetId());
                 }
-                google::protobuf::Value result;
+                google::protobuf::Struct result;
                 if (!service->call(msg->parameters(), result))
                 {
-                    return response(conn, google::protobuf::Value(), Rcode::RCODE_INVALID_RESULT, msg->GetId());
+                    return response(conn, google::protobuf::Struct(), Rcode::RCODE_INVALID_RESULT, msg->GetId());
                 }
                 return response(conn, result, Rcode::RCODE_OK, msg->GetId());
             }
 
         private:
-            void response(const ConnectionBase::ptr& conn, const google::protobuf::Value& res, Rcode rcode, const std::string& id)
+            void response(const ConnectionBase::ptr& conn, const google::protobuf::Struct& res, Rcode rcode, const std::string& id)
             {
                 RpcResponse::ptr respon = MessageFactory::create<RpcResponse>();
                 respon->setRcode(rcode);

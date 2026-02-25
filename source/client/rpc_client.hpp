@@ -128,7 +128,7 @@ namespace MyRpc{
                 //     return ret;
                 // }
                 //同步调用
-                bool call(const std::string& method, const google::protobuf::Struct& parameters, google::protobuf::Value& result){
+                bool call(const std::string& method, const google::protobuf::Struct& parameters, google::protobuf::Struct& result){
                     ClientBase::ptr rpcClient = getAvailableClient(method);
                     if(rpcClient.get() == nullptr){
                         return false;
@@ -136,7 +136,7 @@ namespace MyRpc{
                     return _caller->call(rpcClient->connection(),method,parameters,result);
                 }
                 //异步调用
-                bool call(const std::string& method, const google::protobuf::Struct& parameters, std::future<google::protobuf::Value>& result){
+                bool call(const std::string& method, const google::protobuf::Struct& parameters, std::future<google::protobuf::Struct>& result){
                     ClientBase::ptr rpcClient = getAvailableClient(method);
                     if(rpcClient.get() == nullptr){
                         return false;

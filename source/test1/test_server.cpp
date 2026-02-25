@@ -5,11 +5,11 @@
 #include "../server/rpc_router.hpp"
 #include <google/protobuf/struct.pb.h>
 
-void Add(const google::protobuf::Struct& req, google::protobuf::Value& resp)
+void Add(const google::protobuf::Struct& req, google::protobuf::Struct& resp)
 {
     int num1 = PbUtil::GetInt(req.fields().at("num1"));
     int num2 = PbUtil::GetInt(req.fields().at("num2"));
-    resp.set_number_value(num1 + num2);
+    PbUtil::SetInt(&resp, "value", num1 + num2);
 }
 void testCommunication()
 {

@@ -76,9 +76,9 @@ namespace MyRpc
         }
         virtual Rcode rcode() { return static_cast<Rcode>(_rpc_rsp.rcode()); }
         virtual void setRcode(Rcode rcode) { _rpc_rsp.set_rcode(static_cast<int>(rcode)); }
-        google::protobuf::Value* mutable_result() { return _rpc_rsp.mutable_result(); }
-        const google::protobuf::Value& result() const { return _rpc_rsp.result(); }
-        void set_result(const google::protobuf::Value& val) { *_rpc_rsp.mutable_result() = val; }
+        google::protobuf::Struct* mutable_result() { return _rpc_rsp.mutable_result(); }
+        const google::protobuf::Struct& result() const { return _rpc_rsp.result(); }
+        void set_result(const google::protobuf::Struct& val) { *_rpc_rsp.mutable_result() = val; }
 
     private:
         MyRpc::RpcResponsePb _rpc_rsp;

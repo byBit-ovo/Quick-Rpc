@@ -9,10 +9,10 @@ namespace MyRpc
         {
         public:
             using ptr = std::shared_ptr<RpcCaller>;
-            using PbCallBack = std::function<void(const google::protobuf::Value&)>;
+            using PbCallBack = std::function<void(const google::protobuf::Struct&)>;
 
             bool call(const ConnectionBase::ptr& conn, const std::string& method,
-                      const google::protobuf::Struct& parameters, google::protobuf::Value& result)
+                      const google::protobuf::Struct& parameters, google::protobuf::Struct& result)
             {
                 RpcRequest::ptr req = std::dynamic_pointer_cast<RpcRequest>(MessageFactory::create(Mtype::REQ_RPC));
                 req->SetId(Uuid::uuid());
@@ -44,14 +44,14 @@ namespace MyRpc
             }
 
             bool call(const ConnectionBase::ptr& conn, const std::string& method,
-                      const google::protobuf::Struct& parameters, std::future<google::protobuf::Value>& result)
+                      const google::protobuf::Struct& parameters, std::future<google::protobuf::Struct>& result)
             {
                 RpcRequest::ptr req = std::dynamic_pointer_cast<RpcRequest>(MessageFactory::create(Mtype::REQ_RPC));
                 req->SetId(Uuid::uuid());
                 req->SetType(Mtype::REQ_RPC);
                 req->setMethod(method);
                 req->set_parameters(parameters);
-                std::shared_ptr<std::promise<google::protobuf::Value>> promise_value = std::make_shared<std::promise<google::protobuf::Value>>();
+                std::shared_ptr<std::promise<google::protobuf::Struct>> promise_value = std::make_shared<std::promise<google::protobuf::Struct>>();
                 result = promise_value->get_future();
                 Requestor::ResponseCallBack func = std::bind(&RpcCaller::CallOnAsync, this, promise_value, std::placeholders::_1);
                 bool ret = _requestor->send(conn, req, func);
@@ -94,7 +94,7 @@ namespace MyRpc
                 pbCall(resp->result());
             }
 
-            void CallOnAsync(std::shared_ptr<std::promise<google::protobuf::Value>> rsp, MessageBase::ptr& msg)
+            void CallOnAsync(std::shared_ptr<std::promise<google::protobuf::Struct>> rsp, MessageBase::ptr& msg)
             {
                 auto resp = std::dynamic_pointer_cast<RpcResponse>(msg);
                 if (!resp)

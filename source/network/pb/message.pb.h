@@ -665,23 +665,23 @@ class RpcResponsePb PROTOBUF_FINAL :
     kResultFieldNumber = 2,
     kRcodeFieldNumber = 1,
   };
-  // .google.protobuf.Value result = 2;
+  // .google.protobuf.Struct result = 2;
   bool has_result() const;
   private:
   bool _internal_has_result() const;
   public:
   void clear_result();
-  const PROTOBUF_NAMESPACE_ID::Value& result() const;
-  PROTOBUF_NAMESPACE_ID::Value* release_result();
-  PROTOBUF_NAMESPACE_ID::Value* mutable_result();
-  void set_allocated_result(PROTOBUF_NAMESPACE_ID::Value* result);
+  const PROTOBUF_NAMESPACE_ID::Struct& result() const;
+  PROTOBUF_NAMESPACE_ID::Struct* release_result();
+  PROTOBUF_NAMESPACE_ID::Struct* mutable_result();
+  void set_allocated_result(PROTOBUF_NAMESPACE_ID::Struct* result);
   private:
-  const PROTOBUF_NAMESPACE_ID::Value& _internal_result() const;
-  PROTOBUF_NAMESPACE_ID::Value* _internal_mutable_result();
+  const PROTOBUF_NAMESPACE_ID::Struct& _internal_result() const;
+  PROTOBUF_NAMESPACE_ID::Struct* _internal_mutable_result();
   public:
   void unsafe_arena_set_allocated_result(
-      PROTOBUF_NAMESPACE_ID::Value* result);
-  PROTOBUF_NAMESPACE_ID::Value* unsafe_arena_release_result();
+      PROTOBUF_NAMESPACE_ID::Struct* result);
+  PROTOBUF_NAMESPACE_ID::Struct* unsafe_arena_release_result();
 
   // int32 rcode = 1;
   void clear_rcode();
@@ -699,7 +699,7 @@ class RpcResponsePb PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  PROTOBUF_NAMESPACE_ID::Value* result_;
+  PROTOBUF_NAMESPACE_ID::Struct* result_;
   ::PROTOBUF_NAMESPACE_ID::int32 rcode_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_message_2eproto;
@@ -1707,24 +1707,24 @@ inline void RpcResponsePb::set_rcode(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:MyRpc.RpcResponsePb.rcode)
 }
 
-// .google.protobuf.Value result = 2;
+// .google.protobuf.Struct result = 2;
 inline bool RpcResponsePb::_internal_has_result() const {
   return this != internal_default_instance() && result_ != nullptr;
 }
 inline bool RpcResponsePb::has_result() const {
   return _internal_has_result();
 }
-inline const PROTOBUF_NAMESPACE_ID::Value& RpcResponsePb::_internal_result() const {
-  const PROTOBUF_NAMESPACE_ID::Value* p = result_;
-  return p != nullptr ? *p : *reinterpret_cast<const PROTOBUF_NAMESPACE_ID::Value*>(
-      &PROTOBUF_NAMESPACE_ID::_Value_default_instance_);
+inline const PROTOBUF_NAMESPACE_ID::Struct& RpcResponsePb::_internal_result() const {
+  const PROTOBUF_NAMESPACE_ID::Struct* p = result_;
+  return p != nullptr ? *p : *reinterpret_cast<const PROTOBUF_NAMESPACE_ID::Struct*>(
+      &PROTOBUF_NAMESPACE_ID::_Struct_default_instance_);
 }
-inline const PROTOBUF_NAMESPACE_ID::Value& RpcResponsePb::result() const {
+inline const PROTOBUF_NAMESPACE_ID::Struct& RpcResponsePb::result() const {
   // @@protoc_insertion_point(field_get:MyRpc.RpcResponsePb.result)
   return _internal_result();
 }
 inline void RpcResponsePb::unsafe_arena_set_allocated_result(
-    PROTOBUF_NAMESPACE_ID::Value* result) {
+    PROTOBUF_NAMESPACE_ID::Struct* result) {
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(result_);
   }
@@ -1736,33 +1736,33 @@ inline void RpcResponsePb::unsafe_arena_set_allocated_result(
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:MyRpc.RpcResponsePb.result)
 }
-inline PROTOBUF_NAMESPACE_ID::Value* RpcResponsePb::release_result() {
+inline PROTOBUF_NAMESPACE_ID::Struct* RpcResponsePb::release_result() {
   auto temp = unsafe_arena_release_result();
   if (GetArena() != nullptr) {
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
   return temp;
 }
-inline PROTOBUF_NAMESPACE_ID::Value* RpcResponsePb::unsafe_arena_release_result() {
+inline PROTOBUF_NAMESPACE_ID::Struct* RpcResponsePb::unsafe_arena_release_result() {
   // @@protoc_insertion_point(field_release:MyRpc.RpcResponsePb.result)
   
-  PROTOBUF_NAMESPACE_ID::Value* temp = result_;
+  PROTOBUF_NAMESPACE_ID::Struct* temp = result_;
   result_ = nullptr;
   return temp;
 }
-inline PROTOBUF_NAMESPACE_ID::Value* RpcResponsePb::_internal_mutable_result() {
+inline PROTOBUF_NAMESPACE_ID::Struct* RpcResponsePb::_internal_mutable_result() {
   
   if (result_ == nullptr) {
-    auto* p = CreateMaybeMessage<PROTOBUF_NAMESPACE_ID::Value>(GetArena());
+    auto* p = CreateMaybeMessage<PROTOBUF_NAMESPACE_ID::Struct>(GetArena());
     result_ = p;
   }
   return result_;
 }
-inline PROTOBUF_NAMESPACE_ID::Value* RpcResponsePb::mutable_result() {
+inline PROTOBUF_NAMESPACE_ID::Struct* RpcResponsePb::mutable_result() {
   // @@protoc_insertion_point(field_mutable:MyRpc.RpcResponsePb.result)
   return _internal_mutable_result();
 }
-inline void RpcResponsePb::set_allocated_result(PROTOBUF_NAMESPACE_ID::Value* result) {
+inline void RpcResponsePb::set_allocated_result(PROTOBUF_NAMESPACE_ID::Struct* result) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
   if (message_arena == nullptr) {
     delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(result_);

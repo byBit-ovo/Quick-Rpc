@@ -23,8 +23,8 @@ void RpcMessageTest()
     rrq3->SetId(Uuid::uuid());
     rrq3->setRcode(MyRpc::Rcode::RCODE_OK);
     rrq3->SetType(MyRpc::Mtype::RSP_RPC);
-    google::protobuf::Value result;
-    result.set_number_value(42);
+    google::protobuf::Struct result;
+    PbUtil::SetInt(&result, "value", 42);
     rrq3->set_result(result);
     rrq3->check();
     std::cout << rrq3->serialize().size() << " bytes" << std::endl;
