@@ -54,9 +54,9 @@ namespace MyRpc{
                 _discoverer(std::make_shared<Discoverer>(_requestor,off_call)),
                 _dispatcher(std::make_shared<Dispatcher>()){
                     //向dispatchetr注册 '发现者收到发现响应' 的回调
-                    auto rpc_rsp_call = std::bind(&Requestor::onResponse,_requestor.get(),
+                    auto service_rsp_call = std::bind(&Requestor::onResponse,_requestor.get(),
                     std::placeholders::_1,std::placeholders::_2);
-                    _dispatcher->registerHandler<MessageBase>(Mtype::RSP_SERVICE,rpc_rsp_call);
+                    _dispatcher->registerHandler<MessageBase>(Mtype::RSP_SERVICE,service_rsp_call);
 
                     //向dispatcher注册 '发现者收到服务上下线请求' 的回调
                     auto line_req = std::bind(&Discoverer::onServiceRequest,_discoverer.get(),
@@ -81,7 +81,7 @@ namespace MyRpc{
                 Requestor::ptr _requestor;       //communication core
                 Discoverer::ptr _discoverer;     //通过_requestor发送服务发现请求
                 Dispatcher::ptr _dispatcher;     //通过_requestor中的onResponse接收请求
-                ClientBase::ptr _client;         //has a connction
+                ClientBase::ptr _client;         //has a connection
 
         };
 

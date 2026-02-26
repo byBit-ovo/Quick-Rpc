@@ -210,6 +210,7 @@ namespace MyRpc
                     }
                 }
 
+                // 若提供者连接断开，则通知发现者该服务下线
                 void onShutDown(const ConnectionBase::ptr &conn){
                     auto provider = _providers->findProvider(conn);
                     if(provider.get() != nullptr){

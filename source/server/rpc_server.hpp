@@ -51,9 +51,9 @@ namespace MyRpc{
                     auto rpc_req = std::bind(&RpcRouter::onRpcRequest,_router.get(),
                     std::placeholders::_1,std::placeholders::_2);
                     _dispatcher->registerHandler<RpcRequest>(Mtype::REQ_RPC,rpc_req);
-                    auto rpc_call = std::bind(&Dispatcher::messageCallBack,_dispatcher.get(),
+                    auto message_call_back = std::bind(&Dispatcher::messageCallBack,_dispatcher.get(),
                     std::placeholders::_1,std::placeholders::_2);
-                    _server->SetMessageCallBack(rpc_call);
+                    _server->SetMessageCallBack(message_call_back);
                     if(_enable_register == true){
                         _register_client = std::make_shared<Client::RegisterClient>(reg_host.first,reg_host.second);
                         _register_client->connect();
