@@ -75,6 +75,7 @@ namespace MyRpc{
                 Client::RegisterClient::ptr _register_client;
                 ServerBase::ptr _server;
                 Dispatcher::ptr _dispatcher; 
+                // netless
                 RpcRouter::ptr _router;
         };
         //消息发布订阅服务
