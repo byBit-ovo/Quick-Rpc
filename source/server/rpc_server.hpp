@@ -38,7 +38,7 @@ namespace MyRpc{
                 Dispatcher::ptr _dispatcher; 
                 ServiceManager::ptr _service_manager;
         };
-        //Rpc调用服务，同时可以选择是否包含客户端的服务注册功能
+        //Rpc服务端，同时可以选择是否包含客户端的服务注册功能
         class RpcServer{
             public:
                 using ptr = std::shared_ptr<RpcServer>;

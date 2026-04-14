@@ -17,6 +17,7 @@ namespace MyRpc{
                     msg->setMethod(method);
                     msg->setHost(host);
                     MessageBase::ptr res;
+                    // 同步发送请求，等待响应
                     bool ret = _requestor->send(conn,msg,res);
                     if(ret ==  false){
                         ELOG("%s 服务注册失败!",method.c_str());
