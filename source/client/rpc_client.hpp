@@ -3,7 +3,7 @@
 #include "rpc_caller.hpp"
 #include "service_manager.hpp"
 #include "topic.hpp"
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include <google/protobuf/struct.pb.h>
 
 namespace MyRpc{

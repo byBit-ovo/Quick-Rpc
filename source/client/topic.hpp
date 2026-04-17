@@ -2,7 +2,7 @@
 #include "../network/dispatcher.hpp"
 #include "rpc_caller.hpp"
 #include "../server/rpc_topic.hpp"      
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include "../network/network.hpp"
 
 namespace MyRpc{

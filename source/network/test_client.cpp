@@ -1,6 +1,6 @@
 #include "network.hpp"
 #include "dispatcher.hpp"
-#include "message.hpp"
+#include "pb_message.hpp"
 #include "Util.hpp"
 #include <google/protobuf/struct.pb.h>
 

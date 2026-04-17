@@ -1,6 +1,6 @@
 #pragma once
 #include "../network/network.hpp"
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include <set>
 #include <unordered_set>
 namespace MyRpc

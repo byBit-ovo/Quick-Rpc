@@ -1,10 +1,10 @@
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include "../network/network.hpp"
 #include "../network/dispatcher.hpp"
 #include "../network/Util.hpp"
 #include "../client/rpc_caller.hpp"
 #include <google/protobuf/struct.pb.h>
-
+#include <thread>
 void testCommunication()
 {
     MyRpc::ClientBase::ptr client = MyRpc::ClientFactory::create("127.0.0.1", 10086);

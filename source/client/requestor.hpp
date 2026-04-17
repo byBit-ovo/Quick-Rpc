@@ -1,6 +1,6 @@
 #pragma once
 #include "../network/network.hpp"
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include "../network/dispatcher.hpp"
 #include <future>
 namespace MyRpc

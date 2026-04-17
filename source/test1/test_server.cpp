@@ -1,4 +1,4 @@
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include "../network/network.hpp"
 #include "../network/dispatcher.hpp"
 #include "../network/Util.hpp"

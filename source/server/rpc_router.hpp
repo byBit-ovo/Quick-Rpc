@@ -1,5 +1,5 @@
 #pragma once
-#include "../network/message.hpp"
+#include "../network/pb_message.hpp"
 #include "../network/network.hpp"
 #include <google/protobuf/struct.pb.h>
 
