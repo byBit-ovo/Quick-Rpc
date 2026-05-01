@@ -3,6 +3,7 @@
 #include "../network/pb_message.hpp"
 #include "../network/dispatcher.hpp"
 #include <future>
+#include <chrono>
 namespace MyRpc
 {
     namespace Client
@@ -81,18 +82,35 @@ namespace MyRpc
                     // DLOG("离开异步requestor: send");
                     return true;
                 }
-                //同步获取响应
-                bool send(const ConnectionBase::ptr& conn, const MessageBase::ptr& msg,MessageBase::ptr& resp){
-                    // DLOG("进入同步requestor: send");
+                //同步获取响应，timeout_ms 为超时毫秒数，默认5秒
+                bool send(const ConnectionBase::ptr& conn, const MessageBase::ptr& msg,
+                          MessageBase::ptr& resp, int timeout_ms = 5000){
                     std::future<MessageBase::ptr> resp_future;
                     bool ret = send(conn,msg,resp_future);
                     if(ret == false){
                         return false;
                     }
-                    //立即get达到同步的效果
+                    if(resp_future.wait_for(std::chrono::milliseconds(timeout_ms))
+                            == std::future_status::timeout){
+                        removeDesc(msg->GetId());
+                        ELOG("RPC请求超时! id: %s", msg->GetId().c_str());
+                        return false;
+                    }
                     resp = resp_future.get();
-                    // DLOG("离开同步requestor: send");
                     return true;
+                }
+                //连接断开时，对所有挂起的异步请求设置异常，避免 broken_promise crash
+                void notifyDisconnect(){
+                    std::unique_lock<std::mutex> guard(_lock);
+                    for(auto& [id, desc] : _requests_desc){
+                        if(desc->_type == ReqType::REQ_ASYNC){
+                            try{
+                                desc->_response.set_exception(std::make_exception_ptr(
+                                    std::runtime_error("连接已断开")));
+                            }catch(...){}
+                        }
+                    }
+                    _requests_desc.clear();
                 }
             private:
                 //添加请求描述

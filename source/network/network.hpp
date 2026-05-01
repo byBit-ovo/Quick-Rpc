@@ -131,13 +131,10 @@ namespace MyRpc
         }
 
     private:
-        static const int32_t _headLen;
-        static const int32_t _typeLen;
-        static const int32_t _idLen;
+        static constexpr int32_t _headLen = sizeof(int32_t);
+        static constexpr int32_t _typeLen = sizeof(int32_t);
+        static constexpr int32_t _idLen   = sizeof(int32_t);
     };
-    const int32_t RpcProtocol::_headLen = sizeof(int);
-    const int32_t RpcProtocol::_typeLen = sizeof(int);
-    const int32_t RpcProtocol::_idLen = sizeof(int);
 
     class ProtocolFactory
     {
@@ -208,7 +205,7 @@ namespace MyRpc
         ProtocolBase::ptr _protocol;
         std::unordered_map<muduo::net::TcpConnectionPtr, ConnectionBase::ptr> _connections;
         std::mutex _lock;
-        static const size_t msgMaxLen;
+        static constexpr size_t msgMaxLen = (1 << 16);
         void ConnectionCallBack(const muduo::net::TcpConnectionPtr &conn)
         {
             if (conn->connected())
@@ -286,7 +283,6 @@ namespace MyRpc
             }
         }
     };
-    const size_t MuduoServer::msgMaxLen = (1 << 16);
     class ServerFactory
     {
     public:
@@ -360,9 +356,10 @@ namespace MyRpc
             else
             {
                 ILOG("断开服务器连接");
+                ConnectionBase::ptr closed_conn = _conn;
                 _conn.reset();
                 if(_close_call_back){
-                    _close_call_back(_conn);
+                    _close_call_back(closed_conn);
                 }
             }
         }
@@ -402,9 +399,8 @@ namespace MyRpc
         ConnectionBase::ptr _conn;
         muduo::net::TcpClient _client;
         muduo::CountDownLatch _cdl;
-        static const size_t msgMaxLen;
+        static constexpr size_t msgMaxLen = (1 << 16);
     };
-    const size_t MuduoClient::msgMaxLen = (1<<12);
 
     class ClientFactory
     {

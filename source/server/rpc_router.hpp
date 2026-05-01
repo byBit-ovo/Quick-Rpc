@@ -75,8 +75,15 @@ namespace MyRpc
 
             bool call(const google::protobuf::Struct& params, google::protobuf::Struct& result)
             {
-                _call(params, result);
-                return true;
+                try{
+                    _call(params, result);
+                    return true;
+                }catch(const std::exception& e){
+                    ELOG("服务调用异常: %s", e.what());
+                }catch(...){
+                    ELOG("服务调用未知异常");
+                }
+                return false;
             }
 
         private:
